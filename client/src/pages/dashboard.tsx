@@ -21,12 +21,12 @@ export default function Dashboard() {
   }>({});
 
   // Fetch deals for recently updated section
-  const { data: recentDeals = [] } = useQuery({
+  const { data: recentDeals = [] } = useQuery<any[]>({
     queryKey: ["/api/deals", { limit: 3 }],
   });
 
   // Fetch activity timeline
-  const { data: activities = [] } = useQuery({
+  const { data: activities = [] } = useQuery<any[]>({
     queryKey: ["/api/activity", { limit: 3 }],
   });
 

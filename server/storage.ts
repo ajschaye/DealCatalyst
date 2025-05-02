@@ -8,7 +8,7 @@ import {
   type DealTag, type InsertDealTag, type DealWithRelations
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, like, inArray, desc, sql, asc } from "drizzle-orm";
+import { eq, and, or, like, inArray, desc, sql, asc } from "drizzle-orm";
 
 // Define the Storage interface
 export interface IStorage {
@@ -206,22 +206,41 @@ export class DatabaseStorage implements IStorage {
       .leftJoin(businessUnits, eq(deals.businessUnitId, businessUnits.id))
       .leftJoin(users, eq(deals.leadOwnerId, users.id));
 
+    // Build the conditions array for the where clause
+    const conditions: any[] = [];
+    
     if (filters) {
       if (filters.leadOwnerId) {
-        query = query.where(eq(deals.leadOwnerId, filters.leadOwnerId));
+        conditions.push(eq(deals.leadOwnerId, filters.leadOwnerId));
       }
       if (filters.businessUnitId) {
-        query = query.where(eq(deals.businessUnitId, filters.businessUnitId));
+        conditions.push(eq(deals.businessUnitId, filters.businessUnitId));
       }
       if (filters.stage) {
-        query = query.where(eq(deals.stage, filters.stage));
+        conditions.push(eq(deals.stage, filters.stage));
       }
       if (filters.dealType) {
-        query = query.where(eq(deals.dealType, filters.dealType));
+        conditions.push(eq(deals.dealType, filters.dealType));
       }
       if (filters.search) {
-        query = query.where(like(deals.company, `%${filters.search}%`));
+        const searchTerm = `%${filters.search}%`;
+        // Search across multiple columns: company, stage, deal type, and notes
+        conditions.push(
+          or(
+            like(deals.company, searchTerm),
+            like(deals.stage, searchTerm),
+            like(deals.dealType, searchTerm),
+            like(deals.notes || '', searchTerm),
+            like(deals.useCase || '', searchTerm),
+            like(deals.internalContact || '', searchTerm)
+          )
+        );
       }
+    }
+    
+    // Apply all conditions together
+    if (conditions.length > 0) {
+      query = query.where(and(...conditions));
     }
 
     const dealsWithRelations = await query.orderBy(desc(deals.lastUpdated));
@@ -234,8 +253,8 @@ export class DatabaseStorage implements IStorage {
         
         return {
           ...deal.deal,
-          businessUnit: deal.businessUnit,
-          leadOwner: deal.leadOwner,
+          businessUnit: deal.businessUnit || undefined,
+          leadOwner: deal.leadOwner || undefined,
           tags: dealTagList,
           resources,
         };
@@ -265,8 +284,8 @@ export class DatabaseStorage implements IStorage {
 
     return {
       ...dealWithRelations.deal,
-      businessUnit: dealWithRelations.businessUnit,
-      leadOwner: dealWithRelations.leadOwner,
+      businessUnit: dealWithRelations.businessUnit || undefined,
+      leadOwner: dealWithRelations.leadOwner || undefined,
       tags: dealTags,
       resources,
       comments,
