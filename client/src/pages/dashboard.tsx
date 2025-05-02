@@ -35,11 +35,16 @@ export default function Dashboard() {
   };
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
-
-  const handleSearch = () => {
-    setFilters({ ...filters, search });
+    const searchTerm = e.target.value;
+    setSearch(searchTerm);
+    
+    // Debounce search (apply after 300ms of no typing)
+    const timeoutId = setTimeout(() => {
+      setFilters({ ...filters, search: searchTerm });
+    }, 300);
+    
+    // Cleanup timeout on next change
+    return () => clearTimeout(timeoutId);
   };
 
   return (
@@ -54,13 +59,13 @@ export default function Dashboard() {
               className="px-4 py-2 w-64"
               value={search}
               onChange={handleSearchChange}
-              onKeyDown={(e) => e.key === "Enter" && handleSearch()}
+              onKeyDown={(e) => e.key === "Enter" && setFilters({ ...filters, search })}
             />
             <Button
               variant="ghost"
               size="icon"
               className="absolute right-0 top-0 h-full"
-              onClick={handleSearch}
+              onClick={() => setFilters({ ...filters, search })}
             >
               <Search className="h-4 w-4 text-muted-foreground" />
             </Button>

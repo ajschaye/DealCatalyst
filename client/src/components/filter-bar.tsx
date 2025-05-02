@@ -22,10 +22,10 @@ interface FilterBarProps {
 }
 
 export default function FilterBar({ onApplyFilters }: FilterBarProps) {
-  const [stage, setStage] = useState<string>("");
-  const [leadOwner, setLeadOwner] = useState<string>("");
-  const [businessUnit, setBusinessUnit] = useState<string>("");
-  const [dealType, setDealType] = useState<string>("");
+  const [stage, setStage] = useState<string>("all_stages");
+  const [leadOwner, setLeadOwner] = useState<string>("all_owners");
+  const [businessUnit, setBusinessUnit] = useState<string>("all_units");
+  const [dealType, setDealType] = useState<string>("all_types");
 
   // Fetch users for the lead owner dropdown
   const { data: users = [CURRENT_USER] } = useQuery({
@@ -40,18 +40,18 @@ export default function FilterBar({ onApplyFilters }: FilterBarProps) {
 
   const handleApplyFilters = () => {
     onApplyFilters({
-      stage: stage || undefined,
-      leadOwner: leadOwner ? parseInt(leadOwner) : undefined,
-      businessUnit: businessUnit ? parseInt(businessUnit) : undefined,
-      dealType: dealType || undefined,
+      stage: stage && stage !== "all_stages" ? stage : undefined,
+      leadOwner: leadOwner && leadOwner !== "all_owners" ? parseInt(leadOwner) : undefined,
+      businessUnit: businessUnit && businessUnit !== "all_units" ? parseInt(businessUnit) : undefined,
+      dealType: dealType && dealType !== "all_types" ? dealType : undefined,
     });
   };
 
   const handleResetFilters = () => {
-    setStage("");
-    setLeadOwner("");
-    setBusinessUnit("");
-    setDealType("");
+    setStage("all_stages");
+    setLeadOwner("all_owners");
+    setBusinessUnit("all_units");
+    setDealType("all_types");
     onApplyFilters({});
   };
 
