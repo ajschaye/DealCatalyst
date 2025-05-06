@@ -20,6 +20,16 @@ export async function registerRoutes(app: Express): Promise<Server> {
     return res.status(500).json({ message: err.message || "Internal Server Error" });
   };
 
+  // === Users Routes ===
+  app.get("/api/users", async (_req: Request, res: Response) => {
+    try {
+      const users = await storage.getUsers();
+      res.json(users);
+    } catch (err) {
+      handleError(err, res);
+    }
+  });
+
   // === Business Units Routes ===
   app.get("/api/business-units", async (_req: Request, res: Response) => {
     try {
