@@ -21,15 +21,7 @@ export default function Dashboard() {
     search?: string;
   }>({});
 
-  // Fetch deals for recently updated section
-  const { data: recentDeals = [] } = useQuery<any[]>({
-    queryKey: ["/api/deals", { limit: 3 }],
-  });
-
-  // Fetch activity timeline
-  const { data: activities = [] } = useQuery<any[]>({
-    queryKey: ["/api/activity", { limit: 3 }],
-  });
+  // No need to fetch recent deals and activities anymore
 
   const handleApplyFilters = (newFilters: typeof filters) => {
     setFilters({ ...newFilters, search });
@@ -125,13 +117,9 @@ export default function Dashboard() {
             />
           )}
           {viewMode === "grid" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
-              {recentDeals
-                .filter(deal => !['Closed Won', 'Closed Lost'].includes(deal.stage))
-                .map((deal) => (
-                  <DealCard key={deal.id} deal={deal} />
-                ))
-              }
+            <div className="flex flex-col items-center justify-center p-8 bg-muted rounded-md mb-8">
+              <h3 className="text-lg font-medium mb-2">Grid View</h3>
+              <p className="text-muted-foreground">Grid view is coming soon.</p>
             </div>
           )}
           {viewMode === "kanban" && (
@@ -152,85 +140,24 @@ export default function Dashboard() {
             />
           )}
           {viewMode === "grid" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
-              {recentDeals
-                .filter(deal => ['Closed Won', 'Closed Lost'].includes(deal.stage))
-                .map((deal) => (
-                  <DealCard key={deal.id} deal={deal} />
-                ))
-              }
+            <div className="flex flex-col items-center justify-center p-8 bg-muted rounded-md mb-8">
+              <h3 className="text-lg font-medium mb-2">Grid View</h3>
+              <p className="text-muted-foreground">Grid view is coming soon.</p>
             </div>
           )}
         </TabsContent>
         <TabsContent value="all" className="mt-4">
           {viewMode === "table" && <DealTable filters={{ ...filters, stage: undefined }} />}
           {viewMode === "grid" && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
-              {recentDeals.map((deal) => (
-                <DealCard key={deal.id} deal={deal} />
-              ))}
+            <div className="flex flex-col items-center justify-center p-8 bg-muted rounded-md mb-8">
+              <h3 className="text-lg font-medium mb-2">Grid View</h3>
+              <p className="text-muted-foreground">Grid view is coming soon.</p>
             </div>
           )}
         </TabsContent>
       </Tabs>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white rounded-lg shadow overflow-hidden border border-border">
-          <div className="px-6 py-4 border-b border-border bg-muted">
-            <h2 className="font-semibold text-lg">Recently Updated</h2>
-          </div>
-          <div className="p-6">
-            <ul className="divide-y divide-border">
-              {recentDeals.slice(0, 3).map((deal) => (
-                <li key={deal.id} className="py-3 flex items-center justify-between">
-                  <div className="flex items-center">
-                    <div className="h-8 w-8 rounded-md bg-primary text-white flex items-center justify-center font-bold">
-                      {deal.company.slice(0, 2).toUpperCase()}
-                    </div>
-                    <div className="ml-3">
-                      <p className="text-sm font-medium">{deal.company}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Updated {new Date(deal.lastUpdated).toLocaleDateString()}
-                      </p>
-                    </div>
-                  </div>
-                  <span className="px-2 py-1 text-xs rounded-full bg-accent bg-opacity-10 text-accent">
-                    {deal.stage}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow overflow-hidden border border-border">
-          <div className="px-6 py-4 border-b border-border bg-muted">
-            <h2 className="font-semibold text-lg">Deal Timeline</h2>
-          </div>
-          <div className="p-6">
-            <ul className="divide-y divide-border">
-              {activities.slice(0, 3).map((activity) => (
-                <li key={activity.id} className="py-3 flex items-start">
-                  <div className="flex-shrink-0 h-5 w-5 rounded-full bg-accent mt-1"></div>
-                  <div className="ml-3">
-                    <div className="flex items-center">
-                      <p className="text-sm font-medium">
-                        {activity.deal.company} - {activity.action}
-                      </p>
-                      <span className="ml-2 text-xs text-muted-foreground">
-                        {new Date(activity.createdAt).toLocaleDateString()}
-                      </span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-1">
-                      {activity.user.fullName} {activity.action.toLowerCase()}.
-                    </p>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 }
