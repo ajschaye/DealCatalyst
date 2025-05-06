@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useLocation } from "wouter";
+import React, { useState } from "react";
+import { useLocation, Link } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { STAGE_COLORS } from "@/lib/constants";
@@ -141,15 +141,31 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                     <div className="text-sm">{deal.leadOwner?.fullName || "Unassigned"}</div>
                   </TableCell>
                   <TableCell>
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        deal.stage === "Discovery" ? "bg-primary bg-opacity-10 text-primary" :
-                        deal.stage === "Due Diligence" ? "bg-info bg-opacity-10 text-info" :
-                        deal.stage === "Negotiation" ? "bg-warning bg-opacity-10 text-warning" :
-                        deal.stage === "Closed" ? "bg-success bg-opacity-10 text-success" :
-                        "bg-accent bg-opacity-10 text-accent"
-                      }`}>
-                      {deal.stage}
-                    </span>
+                    {deal.stage === "Discovery" && (
+                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary bg-opacity-10 text-primary">
+                        Discovery
+                      </span>
+                    )}
+                    {deal.stage === "Due Diligence" && (
+                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-info bg-opacity-10 text-info">
+                        Due Diligence
+                      </span>
+                    )}
+                    {deal.stage === "Negotiation" && (
+                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-warning bg-opacity-10 text-warning">
+                        Negotiation
+                      </span>
+                    )}
+                    {deal.stage === "Closed" && (
+                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-success bg-opacity-10 text-success">
+                        Closed
+                      </span>
+                    )}
+                    {!["Discovery", "Due Diligence", "Negotiation", "Closed"].includes(deal.stage) && (
+                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-accent bg-opacity-10 text-accent">
+                        {deal.stage}
+                      </span>
+                    )}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
@@ -224,10 +240,12 @@ export default function DealTable({ filters = {} }: DealTableProps) {
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious 
-                      onClick={() => setPage(Math.max(1, page - 1))}
-                      disabled={page === 1}
-                    />
+                    <Link href="#" onClick={(e: React.MouseEvent) => {
+                        e.preventDefault();
+                        setPage(Math.max(1, page - 1));
+                      }}>
+                      <PaginationPrevious />
+                    </Link>
                   </PaginationItem>
                   {Array.from({ length: Math.min(totalPages, 3) }).map((_, i) => (
                     <PaginationItem key={i}>
@@ -257,10 +275,12 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                     </PaginationItem>
                   )}
                   <PaginationItem>
-                    <PaginationNext 
-                      onClick={() => setPage(Math.min(totalPages, page + 1))}
-                      disabled={page === totalPages}
-                    />
+                    <Link href="#" onClick={(e: React.MouseEvent) => {
+                        e.preventDefault();
+                        setPage(Math.min(totalPages, page + 1));
+                      }}>
+                      <PaginationNext />
+                    </Link>
                   </PaginationItem>
                 </PaginationContent>
               </Pagination>
