@@ -67,7 +67,7 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                   <TableHead>Stage</TableHead>
                   <TableHead>Business Unit</TableHead>
                   <TableHead>Deal Type</TableHead>
-                  <TableHead>AI Summary</TableHead>
+                  <TableHead>Deal Size</TableHead>
                   <TableHead>Last Updated</TableHead>
                   <TableHead className="text-right">Actions</TableHead>
                 </TableRow>
@@ -116,7 +116,7 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                 <TableHead>Stage</TableHead>
                 <TableHead>Business Unit</TableHead>
                 <TableHead>Deal Type</TableHead>
-                <TableHead>AI Summary</TableHead>
+                <TableHead>Deal Size</TableHead>
                 <TableHead>Last Updated</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
@@ -158,8 +158,8 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                   </TableCell>
                   <TableCell>{deal.dealType}</TableCell>
                   <TableCell>
-                    <div className="truncate-2 max-w-md">
-                      {deal.aiSummary || "No summary available"}
+                    <div className="text-sm">
+                      {deal.investmentSize ? `$${Number(deal.investmentSize).toLocaleString()}` : "Not specified"}
                     </div>
                   </TableCell>
                   <TableCell>
