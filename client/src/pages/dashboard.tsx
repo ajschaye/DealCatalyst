@@ -112,7 +112,7 @@ export default function Dashboard() {
               filters={{ 
                 ...filters, 
                 // Filter out closed deals
-                stage: filters.stage || ['Closed Won', 'Closed Lost'].includes(filters.stage || '') ? filters.stage : 'active'
+                stage: filters.stage !== undefined ? filters.stage : 'active'
               }} 
             />
           )}

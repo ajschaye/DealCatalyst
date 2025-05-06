@@ -1,11 +1,10 @@
 // Deal Stages
 export const DEAL_STAGES = [
-  { value: "Initial Contact", label: "Initial Contact" },
+  { value: "Following", label: "Following" },
   { value: "Discovery", label: "Discovery" },
-  { value: "Proposal", label: "Proposal" },
+  { value: "Due Diligence", label: "Due Diligence" },
   { value: "Negotiation", label: "Negotiation" },
-  { value: "Closed Won", label: "Closed Won" },
-  { value: "Closed Lost", label: "Closed Lost" },
+  { value: "Closed", label: "Closed" },
 ];
 
 // Deal Types

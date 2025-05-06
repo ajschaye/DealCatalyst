@@ -218,14 +218,14 @@ export class DatabaseStorage implements IStorage {
       }
       if (filters.stage) {
         if (filters.stage === 'active') {
-          // Active deals are all deals except Closed Won and Closed Lost
+          // Active deals are all deals except Closed
           conditions.push(
-            not(inArray(deals.stage, ['Closed Won', 'Closed Lost']))
+            not(inArray(deals.stage, ['Closed']))
           );
         } else if (filters.stage === 'closed') {
-          // Closed deals are either Closed Won or Closed Lost
+          // Closed deals have the Closed stage
           conditions.push(
-            inArray(deals.stage, ['Closed Won', 'Closed Lost'])
+            inArray(deals.stage, ['Closed'])
           );
         } else {
           // Specific stage filter
@@ -459,7 +459,7 @@ export class DatabaseStorage implements IStorage {
       .from(deals)
       .where(
         and(
-          eq(deals.stage, 'Closed Won'),
+          eq(deals.stage, 'Closed'),
           sql`${deals.lastUpdated} >= ${firstDayOfMonth.toISOString()}`
         )
       );
