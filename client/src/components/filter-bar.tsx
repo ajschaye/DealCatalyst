@@ -15,8 +15,8 @@ import { DEAL_STAGES, DEAL_TYPES, CURRENT_USER } from "@/lib/constants";
 interface FilterBarProps {
   onApplyFilters: (filters: {
     stage?: string;
-    leadOwner?: number;
-    businessUnit?: number;
+    leadOwnerId?: number;
+    businessUnitId?: number;
     dealType?: string;
   }) => void;
 }
@@ -41,8 +41,8 @@ export default function FilterBar({ onApplyFilters }: FilterBarProps) {
   const handleApplyFilters = () => {
     onApplyFilters({
       stage: stage && stage !== "all_stages" ? stage : undefined,
-      leadOwner: leadOwner && leadOwner !== "all_owners" ? parseInt(leadOwner) : undefined,
-      businessUnit: businessUnit && businessUnit !== "all_units" ? parseInt(businessUnit) : undefined,
+      leadOwnerId: leadOwner && leadOwner !== "all_owners" ? parseInt(leadOwner) : undefined,
+      businessUnitId: businessUnit && businessUnit !== "all_units" ? parseInt(businessUnit) : undefined,
       dealType: dealType && dealType !== "all_types" ? dealType : undefined,
     });
   };

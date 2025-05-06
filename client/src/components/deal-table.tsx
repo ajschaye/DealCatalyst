@@ -25,8 +25,8 @@ import { formatDistanceToNow } from "date-fns";
 interface DealTableProps {
   filters?: {
     stage?: string;
-    leadOwner?: number;
-    businessUnit?: number;
+    leadOwnerId?: number;
+    businessUnitId?: number;
     dealType?: string;
     search?: string;
   };

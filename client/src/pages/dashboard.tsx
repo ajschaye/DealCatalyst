@@ -14,8 +14,8 @@ export default function Dashboard() {
   const [search, setSearch] = useState<string>("");
   const [filters, setFilters] = useState<{
     stage?: string;
-    leadOwner?: number;
-    businessUnit?: number;
+    leadOwnerId?: number;
+    businessUnitId?: number;
     dealType?: string;
     search?: string;
   }>({});
