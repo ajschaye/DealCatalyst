@@ -142,10 +142,9 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                   </TableCell>
                   <TableCell>
                     <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                        deal.stage === "Following" ? "bg-primary bg-opacity-10 text-primary" :
-                        deal.stage === "Discovery" ? "bg-info bg-opacity-10 text-info" :
-                        deal.stage === "Due Diligence" ? "bg-warning bg-opacity-10 text-warning" :
-                        deal.stage === "Negotiation" ? "bg-accent bg-opacity-10 text-accent" :
+                        deal.stage === "Discovery" ? "bg-primary bg-opacity-10 text-primary" :
+                        deal.stage === "Due Diligence" ? "bg-info bg-opacity-10 text-info" :
+                        deal.stage === "Negotiation" ? "bg-warning bg-opacity-10 text-warning" :
                         deal.stage === "Closed" ? "bg-success bg-opacity-10 text-success" :
                         "bg-accent bg-opacity-10 text-accent"
                       }`}>

@@ -86,7 +86,7 @@ export default function DealForm({ dealId, onSuccess }: DealFormProps) {
       investmentSize: "",
       useCase: "",
       leadOwnerId: CURRENT_USER.id.toString(),
-      stage: "Following",
+      stage: "Discovery",
       notes: "",
       tagIds: [],
     },

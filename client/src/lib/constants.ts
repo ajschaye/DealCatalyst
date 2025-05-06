@@ -1,6 +1,5 @@
 // Deal Stages
 export const DEAL_STAGES = [
-  { value: "Following", label: "Following" },
   { value: "Discovery", label: "Discovery" },
   { value: "Due Diligence", label: "Due Diligence" },
   { value: "Negotiation", label: "Negotiation" },
@@ -26,10 +25,9 @@ export const DEFAULT_BUSINESS_UNITS = [
 
 // Stage colors for UI representation
 export const STAGE_COLORS = {
-  "Following": "bg-primary bg-opacity-10 text-primary",
-  "Discovery": "bg-info bg-opacity-10 text-info",
-  "Due Diligence": "bg-warning bg-opacity-10 text-warning",
-  "Negotiation": "bg-accent bg-opacity-10 text-accent",
+  "Discovery": "bg-primary bg-opacity-10 text-primary",
+  "Due Diligence": "bg-info bg-opacity-10 text-info",
+  "Negotiation": "bg-warning bg-opacity-10 text-warning",
   "Closed": "bg-success bg-opacity-10 text-success",
 };
 
