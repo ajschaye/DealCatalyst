@@ -141,31 +141,7 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                     <div className="text-sm">{deal.leadOwner?.fullName || "Unassigned"}</div>
                   </TableCell>
                   <TableCell>
-                    {deal.stage === "Discovery" && (
-                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-primary bg-opacity-10 text-primary">
-                        Discovery
-                      </span>
-                    )}
-                    {deal.stage === "Due Diligence" && (
-                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-info bg-opacity-10 text-info">
-                        Due Diligence
-                      </span>
-                    )}
-                    {deal.stage === "Negotiation" && (
-                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-warning bg-opacity-10 text-warning">
-                        Negotiation
-                      </span>
-                    )}
-                    {deal.stage === "Closed" && (
-                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-success bg-opacity-10 text-success">
-                        Closed
-                      </span>
-                    )}
-                    {!["Discovery", "Due Diligence", "Negotiation", "Closed"].includes(deal.stage) && (
-                      <span className="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-accent bg-opacity-10 text-accent">
-                        {deal.stage}
-                      </span>
-                    )}
+                    <span className="text-sm">{deal.stage}</span>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center">
