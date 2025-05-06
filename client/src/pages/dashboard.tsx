@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 export default function Dashboard() {
   const [viewMode, setViewMode] = useState<string>("table");
   const [search, setSearch] = useState<string>("");
+  const [selectedTab, setSelectedTab] = useState<string>("active");
   const [filters, setFilters] = useState<{
     stage?: string;
     leadOwnerId?: number;
@@ -102,19 +103,35 @@ export default function Dashboard() {
       <FilterBar onApplyFilters={handleApplyFilters} />
       <DealStats />
 
-      <Tabs defaultValue="active" className="mb-8">
+      <Tabs 
+        defaultValue="active" 
+        className="mb-8"
+        value={selectedTab}
+        onValueChange={(value) => setSelectedTab(value)}
+      >
         <TabsList>
           <TabsTrigger value="active">Active Deals</TabsTrigger>
           <TabsTrigger value="closed">Closed Deals</TabsTrigger>
           <TabsTrigger value="all">All Deals</TabsTrigger>
         </TabsList>
         <TabsContent value="active" className="mt-4">
-          {viewMode === "table" && <DealTable filters={filters} />}
+          {viewMode === "table" && (
+            <DealTable 
+              filters={{ 
+                ...filters, 
+                // Filter out closed deals
+                stage: filters.stage || ['Closed Won', 'Closed Lost'].includes(filters.stage || '') ? filters.stage : 'active'
+              }} 
+            />
+          )}
           {viewMode === "grid" && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
-              {recentDeals.map((deal) => (
-                <DealCard key={deal.id} deal={deal} />
-              ))}
+              {recentDeals
+                .filter(deal => !['Closed Won', 'Closed Lost'].includes(deal.stage))
+                .map((deal) => (
+                  <DealCard key={deal.id} deal={deal} />
+                ))
+              }
             </div>
           )}
           {viewMode === "kanban" && (
@@ -125,13 +142,35 @@ export default function Dashboard() {
           )}
         </TabsContent>
         <TabsContent value="closed" className="mt-4">
-          <div className="flex flex-col items-center justify-center p-8 bg-muted rounded-md mb-8">
-            <h3 className="text-lg font-medium mb-2">Closed Deals</h3>
-            <p className="text-muted-foreground">Select the Closed Deals filter to view deals that have been closed.</p>
-          </div>
+          {viewMode === "table" && (
+            <DealTable 
+              filters={{ 
+                ...filters, 
+                // Only show closed deals (Closed Won or Closed Lost)
+                stage: 'closed'
+              }} 
+            />
+          )}
+          {viewMode === "grid" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+              {recentDeals
+                .filter(deal => ['Closed Won', 'Closed Lost'].includes(deal.stage))
+                .map((deal) => (
+                  <DealCard key={deal.id} deal={deal} />
+                ))
+              }
+            </div>
+          )}
         </TabsContent>
         <TabsContent value="all" className="mt-4">
           {viewMode === "table" && <DealTable filters={{ ...filters, stage: undefined }} />}
+          {viewMode === "grid" && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-8">
+              {recentDeals.map((deal) => (
+                <DealCard key={deal.id} deal={deal} />
+              ))}
+            </div>
+          )}
         </TabsContent>
       </Tabs>
 

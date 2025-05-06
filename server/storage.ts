@@ -8,7 +8,7 @@ import {
   type DealTag, type InsertDealTag, type DealWithRelations
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, and, or, like, inArray, desc, sql, asc } from "drizzle-orm";
+import { eq, and, or, like, inArray, desc, sql, asc, not } from "drizzle-orm";
 
 // Define the Storage interface
 export interface IStorage {
@@ -217,7 +217,20 @@ export class DatabaseStorage implements IStorage {
         conditions.push(eq(deals.businessUnitId, filters.businessUnitId));
       }
       if (filters.stage) {
-        conditions.push(eq(deals.stage, filters.stage));
+        if (filters.stage === 'active') {
+          // Active deals are all deals except Closed Won and Closed Lost
+          conditions.push(
+            not(inArray(deals.stage, ['Closed Won', 'Closed Lost']))
+          );
+        } else if (filters.stage === 'closed') {
+          // Closed deals are either Closed Won or Closed Lost
+          conditions.push(
+            inArray(deals.stage, ['Closed Won', 'Closed Lost'])
+          );
+        } else {
+          // Specific stage filter
+          conditions.push(eq(deals.stage, filters.stage));
+        }
       }
       if (filters.dealType) {
         conditions.push(eq(deals.dealType, filters.dealType));
