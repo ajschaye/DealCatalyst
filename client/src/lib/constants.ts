@@ -8,10 +8,9 @@ export const DEAL_STAGES = [
 
 // Deal Types
 export const DEAL_TYPES = [
-  { value: "Strategic Investment", label: "Strategic Investment" },
-  { value: "Vendor", label: "Vendor" },
-  { value: "Pilot", label: "Pilot" },
+  { value: "Investment", label: "Investment" },
   { value: "Partnership", label: "Partnership" },
+  { value: "Vendor", label: "Vendor" },
   { value: "Acquisition", label: "Acquisition" },
 ];
 

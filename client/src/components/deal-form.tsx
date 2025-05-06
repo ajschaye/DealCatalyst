@@ -82,7 +82,7 @@ export default function DealForm({ dealId, onSuccess }: DealFormProps) {
       website: "",
       internalContact: "",
       businessUnitId: "",
-      dealType: "",
+      dealType: "Investment",
       investmentSize: "",
       useCase: "",
       leadOwnerId: CURRENT_USER.id.toString(),
