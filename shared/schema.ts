@@ -78,7 +78,7 @@ export const deals = pgTable("deals", {
   investmentSize: integer("investment_size"),
   useCase: text("use_case"),
   leadOwnerId: integer("lead_owner_id").references(() => users.id),
-  stage: text("stage").notNull().default("Initial Contact"),
+  stage: text("stage").notNull().default("Following"),
   notes: text("notes"),
   aiSummary: text("ai_summary"),
   aiMarketReportLink: text("ai_market_report_link"),

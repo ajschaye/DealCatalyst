@@ -26,12 +26,11 @@ export const DEFAULT_BUSINESS_UNITS = [
 
 // Stage colors for UI representation
 export const STAGE_COLORS = {
-  "Initial Contact": "bg-primary bg-opacity-10 text-primary",
+  "Following": "bg-primary bg-opacity-10 text-primary",
   "Discovery": "bg-info bg-opacity-10 text-info",
-  "Proposal": "bg-warning bg-opacity-10 text-warning",
+  "Due Diligence": "bg-warning bg-opacity-10 text-warning",
   "Negotiation": "bg-accent bg-opacity-10 text-accent",
-  "Closed Won": "bg-success bg-opacity-10 text-success",
-  "Closed Lost": "bg-destructive bg-opacity-10 text-destructive",
+  "Closed": "bg-success bg-opacity-10 text-success",
 };
 
 // Navigation items for sidebar

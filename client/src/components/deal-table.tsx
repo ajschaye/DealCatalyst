@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useLocation } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { STAGE_COLORS } from "@/lib/constants";
 import { 
   Table, 
   TableHeader, 
@@ -38,7 +39,7 @@ export default function DealTable({ filters = {} }: DealTableProps) {
   const pageSize = 8;
 
   // Fetch deals with applied filters
-  const { data: deals = [], isLoading } = useQuery({
+  const { data: deals = [], isLoading } = useQuery<any[]>({
     queryKey: ["/api/deals", filters],
   });
 
@@ -140,7 +141,14 @@ export default function DealTable({ filters = {} }: DealTableProps) {
                     <div className="text-sm">{deal.leadOwner?.fullName || "Unassigned"}</div>
                   </TableCell>
                   <TableCell>
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-accent bg-opacity-10 text-accent">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        deal.stage === "Following" ? "bg-primary bg-opacity-10 text-primary" :
+                        deal.stage === "Discovery" ? "bg-info bg-opacity-10 text-info" :
+                        deal.stage === "Due Diligence" ? "bg-warning bg-opacity-10 text-warning" :
+                        deal.stage === "Negotiation" ? "bg-accent bg-opacity-10 text-accent" :
+                        deal.stage === "Closed" ? "bg-success bg-opacity-10 text-success" :
+                        "bg-accent bg-opacity-10 text-accent"
+                      }`}>
                       {deal.stage}
                     </span>
                   </TableCell>
